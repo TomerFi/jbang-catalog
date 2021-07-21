@@ -1,0 +1,8 @@
+{
+    "aliases" : {
+        "shabbat_times" : {
+            "script-ref" : "src/shabbat_times.java",
+            "description" : "Get the shabbat times for a geoid."
+        }
+    }
+}
