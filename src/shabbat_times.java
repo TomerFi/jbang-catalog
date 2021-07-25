@@ -13,22 +13,23 @@
 
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 11+
-//DEPS info.tomfi.hebcal:hebcal-api:1.0.1
+//DEPS info.tomfi.hebcal:hebcal-api:1.0.2-SNAPSHOT
 //DEPS info.picocli:picocli:4.6.1
 
 import static info.tomfi.hebcal.shabbat.response.ItemCategory.CANDLES;
 import static info.tomfi.hebcal.shabbat.response.ItemCategory.HAVDALAH;
-import static java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+import static info.tomfi.hebcal.shabbat.tools.Helpers.getShabbatEnd;
+import static info.tomfi.hebcal.shabbat.tools.Helpers.getShabbatStart;
 import static java.time.format.DateTimeFormatter.ofLocalizedDateTime;
-import static java.time.format.FormatStyle.MEDIUM;
+import static java.time.format.FormatStyle.FULL;
 import static java.time.format.FormatStyle.SHORT;
+import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.joining;
 
 import info.tomfi.hebcal.shabbat.ShabbatAPI;
 import info.tomfi.hebcal.shabbat.response.Response;
 import info.tomfi.hebcal.shabbat.request.Request;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ServiceLoader;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -43,7 +44,7 @@ import picocli.CommandLine.Spec;
 @Command(
   name= "shabbat_times",
   mixinStandardHelpOptions = true,
-  version = "1.0.1",
+  version = "1.0.2-SNAPSHOT",
   description = "Retrieve the shabbat times for a geoid.")
 final class shabbat_times implements Callable<Integer> {
   @Option(
@@ -66,21 +67,14 @@ final class shabbat_times implements Callable<Integer> {
     var api = ServiceLoader.load(ShabbatAPI.class).iterator().next();
 
     var request = Request.builder().forGeoId(geoid);
-    if (date != null) {
+    if (nonNull(date)) {
       request.withDate(date);
     }
 
-    Response response = null;
     try {
-      response = api.sendAsync(request.build()).get();
+      printToConsole(api.sendAsync(request.build()).get());
     } catch (final ExecutionException exc) {
       throw new ParameterException(spec.commandLine(), "Error: " + exc.getMessage());
-    }
-
-    if (raw) {
-      System.out.println(response.toString());
-    } else {
-      printTimes(response);
     }
 
     return 0;
@@ -94,28 +88,17 @@ final class shabbat_times implements Callable<Integer> {
     }
   }
 
-  private String parseDate(final String fullDate) {
-    // expect incoming full date, e.g. 2021-01-01T16:05:00+02:00
-    var localDateTime = LocalDateTime.parse(fullDate, ISO_OFFSET_DATE_TIME);
-    // return a pretty date, e.g. 01 Jan 2021, 16:05 (including offset)
-    return localDateTime.format(ofLocalizedDateTime(MEDIUM, SHORT));
-  }
+  private void printToConsole(final Response response) {
+    if (raw) {
+      System.out.println(response.toString());
+    } else {
+      var start = getShabbatStart(response).format(ofLocalizedDateTime(FULL, SHORT));
+      var end = getShabbatEnd(response).format(ofLocalizedDateTime(FULL, SHORT));
 
-  private void printTimes(final Response response) {
-    var itemsList = response.items().get();
-    var candleItem = itemsList.stream()
-      .filter(item -> item.category().equals(CANDLES.toString()))
-      .findFirst()
-      .get();
-
-    var havdalahItem = itemsList.stream()
-      .filter(item -> item.category().equals(HAVDALAH.toString()))
-      .findFirst()
-      .get();
-
-    System.out.println(String.format("Shabbat times for %s:", response.location().title()));
-    System.out.println(String.format("- starts on %s", parseDate(candleItem.date())));
-    System.out.println(String.format("- ends on %s", parseDate(havdalahItem.date())));
+      System.out.println(String.format("Shabbat times for %s:", response.location().title()));
+      System.out.println(String.format("- starts on %s", start));
+      System.out.println(String.format("- ends on %s", end));
+    }
   }
 
   public static void main(final String[] args) {
