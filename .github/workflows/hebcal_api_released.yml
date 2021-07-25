@@ -1,3 +1,4 @@
+---
 name: Hebcal-API Released
 
 on:
@@ -24,7 +25,7 @@ jobs:
           git pull
 
       - name: Update shabbat_times script
-        run: >
+        run:
           sed -i 's/\/\/DEPS info.tomfi.hebcal:hebcal-api:.*/\/\/DEPS info.tomfi.hebcal:hebcal-api:${{ steps.new_version.outputs.text }}/g;
           s/version = .*\,/version = "${{ steps.new_version.outputs.text }}"/g' src/shabbat_times.java
 

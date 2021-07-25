@@ -16,19 +16,16 @@
 //DEPS info.tomfi.hebcal:hebcal-api:1.0.2-SNAPSHOT
 //DEPS info.picocli:picocli:4.6.1
 
-import static info.tomfi.hebcal.shabbat.response.ItemCategory.CANDLES;
-import static info.tomfi.hebcal.shabbat.response.ItemCategory.HAVDALAH;
 import static info.tomfi.hebcal.shabbat.tools.Helpers.getShabbatEnd;
 import static info.tomfi.hebcal.shabbat.tools.Helpers.getShabbatStart;
 import static java.time.format.DateTimeFormatter.ofLocalizedDateTime;
 import static java.time.format.FormatStyle.FULL;
 import static java.time.format.FormatStyle.SHORT;
 import static java.util.Objects.nonNull;
-import static java.util.stream.Collectors.joining;
 
 import info.tomfi.hebcal.shabbat.ShabbatAPI;
-import info.tomfi.hebcal.shabbat.response.Response;
 import info.tomfi.hebcal.shabbat.request.Request;
+import info.tomfi.hebcal.shabbat.response.Response;
 import java.time.LocalDate;
 import java.util.ServiceLoader;
 import java.util.concurrent.Callable;
@@ -42,15 +39,15 @@ import picocli.CommandLine.Spec;
 
 /** Jbang script for retrieving the shabbat times for a geoid. */
 @Command(
-  name= "shabbat_times",
-  mixinStandardHelpOptions = true,
-  version = "1.0.2-SNAPSHOT",
-  description = "Retrieve the shabbat times for a geoid.")
+    name = "shabbat_times",
+    mixinStandardHelpOptions = true,
+    version = "1.0.2-SNAPSHOT",
+    description = "Retrieve the shabbat times for a geoid.")
 final class shabbat_times implements Callable<Integer> {
   @Option(
-    names = {"-g", "--geoid"},
-    description = "Geoid (e.g. '281184')",
-    required = true)
+      names = {"-g", "--geoid"},
+      description = "Geoid (e.g. '281184')",
+      required = true)
   private int geoid;
 
   @Option(names = {"-d", "--date"}, description = "Date (e.g. '2018-01-01')")
@@ -59,7 +56,7 @@ final class shabbat_times implements Callable<Integer> {
   @Option(names = {"-x", "--raw"}, description = "Raw output")
   private boolean raw;
 
-  @Spec CommandSpec spec;
+  @Spec private CommandSpec spec;
 
   @Override
   public Integer call() throws Exception {
@@ -74,7 +71,8 @@ final class shabbat_times implements Callable<Integer> {
     try {
       printToConsole(api.sendAsync(request.build()).get());
     } catch (final ExecutionException exc) {
-      throw new ParameterException(spec.commandLine(), "Error: " + exc.getMessage());
+      throw new ParameterException(
+        spec.commandLine(), "Error: " + exc.getMessage());
     }
 
     return 0;
@@ -84,7 +82,8 @@ final class shabbat_times implements Callable<Integer> {
     if (geoid < 1) {
       throw new ParameterException(
         spec.commandLine(),
-        "The geoid must be a positive number.\nGet yours from https://www.geonames.org/");
+        "The geoid must be a positive number.\n"
+        + "Get yours from https://www.geonames.org/");
     }
   }
 
@@ -92,10 +91,13 @@ final class shabbat_times implements Callable<Integer> {
     if (raw) {
       System.out.println(response.toString());
     } else {
-      var start = getShabbatStart(response).format(ofLocalizedDateTime(FULL, SHORT));
-      var end = getShabbatEnd(response).format(ofLocalizedDateTime(FULL, SHORT));
+      var start = getShabbatStart(response)
+          .format(ofLocalizedDateTime(FULL, SHORT));
+      var end = getShabbatEnd(response)
+          .format(ofLocalizedDateTime(FULL, SHORT));
 
-      System.out.println(String.format("Shabbat times for %s:", response.location().title()));
+      System.out.println(String.format(
+          "Shabbat times for %s:", response.location().title()));
       System.out.println(String.format("- starts on %s", start));
       System.out.println(String.format("- ends on %s", end));
     }
