@@ -21,8 +21,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_ALL_CODEBASE: false
-          LINTER_RULES_PATH: .
-          FILTER_REGEX_EXCLUDE: /target/
           VALIDATE_EDITORCONFIG: true
           VALIDATE_JAVA: true
           VALIDATE_MARKDOWN: true
