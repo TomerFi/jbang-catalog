@@ -12,7 +12,7 @@ jobs:
     name: Update shabbat_times script with new Hebcal-API version
     steps:
       - name: Source checkout
-        uses: actions/checkout@2.3.4
+        uses: actions/checkout@v2.3.4
 
       - name: Get new version from the event
         id: new_version
