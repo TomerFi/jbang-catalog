@@ -13,7 +13,7 @@
 
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 11+
-//DEPS info.tomfi.hebcal:hebcal-api:2.0.0 
+//DEPS info.tomfi.hebcal:hebcal-api:2.0.0
 //DEPS info.picocli:picocli:4.6.1
 
 import static info.tomfi.hebcal.shabbat.tools.Helpers.getShabbatEnd;
