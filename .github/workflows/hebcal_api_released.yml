@@ -16,7 +16,7 @@ jobs:
 
       - name: Get new version from the event
         id: new_version
-        run: echo "::set-output name=text::${{ github.event.client_payload.release }}"
+        run: echo "::set-output name=text::${{ github.event.client_payload.release }}" | xargs
 
       - name: Configure git
         run: |
