@@ -27,7 +27,7 @@ jobs:
       - name: Update shabbat_times script
         run:
           sed -i 's/\/\/DEPS info.tomfi.hebcal:hebcal-api:.*/\/\/DEPS info.tomfi.hebcal:hebcal-api:${{ steps.new_version.outputs.text }}/g;
-          s/version = .*\,/version = "${{ steps.new_version.outputs.text }}"/g' src/shabbat_times.java
+          s/version = .*\,/version = "${{ steps.new_version.outputs.text }}",/g' src/shabbat_times.java
 
       - name: Commit and push back to repository
         run: |
