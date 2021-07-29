@@ -13,7 +13,7 @@
 
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 11+
-//DEPS info.tomfi.hebcal:hebcal-api:1.0.2
+//DEPS info.tomfi.hebcal:hebcal-api:2.0.0
 //DEPS info.picocli:picocli:4.6.1
 
 import static info.tomfi.hebcal.shabbat.tools.Helpers.getShabbatEnd;
@@ -41,7 +41,7 @@ import picocli.CommandLine.Spec;
 @Command(
     name = "shabbat_times",
     mixinStandardHelpOptions = true,
-    version = "1.0.2",
+    version = "2.0.0",
     description = "Retrieve the shabbat times for a geoid.")
 final class shabbat_times implements Callable<Integer> {
   @Option(
