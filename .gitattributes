@@ -24,7 +24,7 @@ CHANGELOG text eol=crlf
 CONTRIBUTING text eol=crlf
 *COPYRIGHT* text eol=crlf
 LICENSE text eol=crlf
-*README* text eol=crlf
+*README* text eol=lf
 # Configs
 *.cnf text eol=lf
 *.conf text eol=crlf
