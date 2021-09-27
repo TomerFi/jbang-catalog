@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Source checkout
         uses: actions/checkout@v2.3.4
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Get new version from the event
         id: new_version
@@ -22,7 +24,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git pull
 
       - name: Update shabbat_times script
         run:
