@@ -12,7 +12,7 @@ jobs:
     name: Update shabbat_times script with new Hebcal-API version
     steps:
       - name: Source checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           ssh-key: ${{ secrets.DEPLOY_KEY }}
 
