@@ -13,19 +13,17 @@
 
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 11+
-//DEPS info.tomfi.hebcal:hebcal-api:2.1.9
-//DEPS info.picocli:picocli:4.6.1
+//DEPS info.tomfi.shabbat:shabbat-api:2.1.10-SNAPSHOT
+//DEPS info.picocli:picocli:4.6.3
 
-import static info.tomfi.hebcal.shabbat.tools.Helpers.getShabbatEnd;
-import static info.tomfi.hebcal.shabbat.tools.Helpers.getShabbatStart;
 import static java.time.format.DateTimeFormatter.ofLocalizedDateTime;
 import static java.time.format.FormatStyle.FULL;
 import static java.time.format.FormatStyle.SHORT;
 import static java.util.Objects.nonNull;
 
-import info.tomfi.hebcal.shabbat.ShabbatAPI;
-import info.tomfi.hebcal.shabbat.request.Request;
-import info.tomfi.hebcal.shabbat.response.Response;
+import info.tomfi.shabbat.APIResponse;
+import info.tomfi.shabbat.APIRequest;
+import info.tomfi.shabbat.ShabbatAPI;
 import java.time.LocalDate;
 import java.util.ServiceLoader;
 import java.util.concurrent.Callable;
@@ -61,9 +59,9 @@ final class shabbat_times implements Callable<Integer> {
   @Override
   public Integer call() throws Exception {
     validateOptions();
-    var api = ServiceLoader.load(ShabbatAPI.class).iterator().next();
+    var api = new ShabbatAPI();
 
-    var request = Request.builder().forGeoId(geoid);
+    var request = APIRequest.builder().forGeoId(geoid);
     if (nonNull(date)) {
       request.withDate(date);
     }
@@ -87,19 +85,25 @@ final class shabbat_times implements Callable<Integer> {
     }
   }
 
-  private void printToConsole(final Response response) {
+  private void printToConsole(final APIResponse response) {
     if (raw) {
       System.out.println(response.toString());
     } else {
-      var start = getShabbatStart(response)
-          .format(ofLocalizedDateTime(FULL, SHORT));
-      var end = getShabbatEnd(response)
-          .format(ofLocalizedDateTime(FULL, SHORT));
+      var start = response.getShabbatStart().format(ofLocalizedDateTime(FULL, SHORT));
+      var end = response.getShabbatEnd().format(ofLocalizedDateTime(FULL, SHORT));
 
       System.out.println(String.format(
-          "Shabbat times for %s:", response.location().title()));
+          "Shabbat info for %s:", response.location.title));
       System.out.println(String.format("- starts on %s", start));
       System.out.println(String.format("- ends on %s", end));
+      System.out.println(String.format("- the parasha is %s", response.getShabbatParasha()));
+
+
+      var roshChodesh = response.isRoshChodesh() ? "- shabbat is rosh chodesh" : "- shabbat is NOT rosh chodesh";
+      System.out.println(roshChodesh);
+
+
+
     }
   }
 

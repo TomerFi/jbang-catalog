@@ -1,15 +1,15 @@
 ---
-name: Hebcal-API Released
+name: Shabbat-API Released
 
 on:
   repository_dispatch:
-    types: [hebcal-api-released]
+    types: [shabbat-api-released]
 
 jobs:
   update_shabbat_times_script:
     runs-on: ubuntu-latest
     environment: deployment
-    name: Update shabbat_times script with new Hebcal-API version
+    name: Update shabbat_times script with new Shabbat-API version
     steps:
       - name: Source checkout
         uses: actions/checkout@v3
@@ -22,16 +22,16 @@ jobs:
 
       - name: Configure git
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Update shabbat_times script
         run:
-          sed -i 's/\/\/DEPS info.tomfi.hebcal:hebcal-api:.*/\/\/DEPS info.tomfi.hebcal:hebcal-api:${{ steps.new_version.outputs.text }}/g;
+          sed -i 's/\/\/DEPS info.tomfi.shabbat:shabbat-api:.*/\/\/DEPS info.tomfi.shabbat:shabbat-api:${{ steps.new_version.outputs.text }}/g;
           s/version = .*\,/version = "${{ steps.new_version.outputs.text }}",/g' src/shabbat_times.java
 
       - name: Commit and push back to repository
         run: |
           git add src/shabbat_times.java
-          git commit -m "build(deps): bumped hebcal-api to ${{ steps.new_version.outputs.text }}"
+          git commit -m "build(deps): bumped shabbat-api to ${{ steps.new_version.outputs.text }}"
           git push
