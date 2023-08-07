@@ -15,3 +15,16 @@ Shabbat info for Jerusalem, Israel:
 - the parasha is Parashat Pekudei
 - shabbat is rosh chodesh
 ```
+
+## Contributors [![all-contributors]](https://allcontributors.org/)
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+[all-contributors]: https://img.shields.io/github/all-contributors/tomerfi/jbang-catalog?color=ee8449&style=flat-square
