@@ -13,7 +13,7 @@
 
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 11+
-//DEPS info.tomfi.shabbat:shabbat-api:3.0.4
+//DEPS info.tomfi.shabbat:shabbat-api:3.0.5
 //DEPS info.picocli:picocli:4.6.3
 
 import static java.time.format.DateTimeFormatter.ofLocalizedDateTime;
@@ -39,7 +39,7 @@ import picocli.CommandLine.Spec;
 @Command(
     name = "shabbat_times",
     mixinStandardHelpOptions = true,
-    version = "3.0.4",
+    version = "3.0.5",
     description = "Retrieve the shabbat times for a geoid.")
 final class shabbat_times implements Callable<Integer> {
   @Option(
