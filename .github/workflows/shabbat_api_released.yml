@@ -1,37 +1,37 @@
----
-name: Shabbat-API Released
-
-on:
-  repository_dispatch:
-    types: [shabbat-api-released]
-
-jobs:
-  update_shabbat_times_script:
-    runs-on: ubuntu-latest
-    environment: deployment
-    name: Update shabbat_times script with new Shabbat-API version
-    steps:
-      - name: Source checkout
-        uses: actions/checkout@v4
-        with:
-          ssh-key: ${{ secrets.DEPLOY_KEY }}
-
-      - name: Get new version from the event
-        id: new_version
-        run: echo "text=${{ github.event.client_payload.release }}" | xargs > $GITHUB_OUTPUT
-
-      - name: Configure git
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-
-      - name: Update shabbat_times script
-        run:
-          sed -i 's/\/\/DEPS info.tomfi.shabbat:shabbat-api:.*/\/\/DEPS info.tomfi.shabbat:shabbat-api:${{ steps.new_version.outputs.text }}/g;
-          s/version = .*\,/version = "${{ steps.new_version.outputs.text }}",/g' src/shabbat_times.java
-
-      - name: Commit and push back to repository
-        run: |
-          git add src/shabbat_times.java
-          git commit -m "build(deps): bumped shabbat-api to ${{ steps.new_version.outputs.text }}"
-          git push
+#---
+#name: Shabbat-API Released
+#
+#on:
+#  repository_dispatch:
+#    types: [shabbat-api-released]
+#
+#jobs:
+#  update_shabbat_times_script:
+#    runs-on: ubuntu-latest
+#    environment: deployment
+#    name: Update shabbat_times script with new Shabbat-API version
+#    steps:
+#      - name: Source checkout
+#        uses: actions/checkout@v4
+#        with:
+#          ssh-key: ${{ secrets.DEPLOY_KEY }}
+#
+#      - name: Get new version from the event
+#        id: new_version
+#        run: echo "text=${{ github.event.client_payload.release }}" | xargs > $GITHUB_OUTPUT
+#
+#      - name: Configure git
+#        run: |
+#          git config user.name "${{ github.actor }}"
+#          git config user.email "${{ github.actor }}@users.noreply.github.com"
+#
+#      - name: Update shabbat_times script
+#        run:
+#          sed -i 's/\/\/DEPS info.tomfi.shabbat:shabbat-api:.*/\/\/DEPS info.tomfi.shabbat:shabbat-api:${{ steps.new_version.outputs.text }}/g;
+#          s/version = .*\,/version = "${{ steps.new_version.outputs.text }}",/g' src/shabbat_times.java
+#
+#      - name: Commit and push back to repository
+#        run: |
+#          git add src/shabbat_times.java
+#          git commit -m "build(deps): bumped shabbat-api to ${{ steps.new_version.outputs.text }}"
+#          git push

@@ -1,3 +1,7 @@
+# JBang Catalog Archived
+
+<details>
+<summary>Original README</summary>
 # TomerFi's JBang Catalog
 
 All you need to do is install [JBang](https://www.jbang.dev/) and run Java scripts.
@@ -15,23 +19,4 @@ Shabbat info for Jerusalem, Israel:
 - the parasha is Parashat Pekudei
 - shabbat is rosh chodesh
 ```
-
-## Contributors [![all-contributors]](https://allcontributors.org/)
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://altmascinco.wordpress.com"><img src="https://avatars.githubusercontent.com/u/1054618?v=4?s=100" width="100px;" alt="Jorge Vallecillo"/><br /><sub><b>Jorge Vallecillo</b></sub></a><br /><a href="#infra-altmas5" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-[all-contributors]: https://img.shields.io/github/all-contributors/tomerfi/jbang-catalog?color=ee8449&style=flat-square
+</details>
